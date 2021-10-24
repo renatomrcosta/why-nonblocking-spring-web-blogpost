@@ -1,5 +1,6 @@
 package de.renatomrcosta.whyreactivespringweb
 
+import kotlinx.coroutines.future.await
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
@@ -28,10 +29,10 @@ class GreetingController(
 ) {
 
     @GetMapping
-    fun listAll(): List<Greeting> = greetingService.getAll()
+    suspend fun listAll(): List<Greeting> = greetingService.getAll()
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Int): ResponseEntity<Greeting> =
+    suspend fun getById(@PathVariable id: Int): ResponseEntity<Greeting> =
         greetingService.getById(id = id)?.let { greeting ->
             ResponseEntity.ok(greeting)
         } ?: ResponseEntity.notFound().build()
@@ -47,7 +48,7 @@ class GreetingService(
         Greeting(id = 3, text = "Well, that's a fine how do you do!"),
     )
 
-    fun getAll(): List<Greeting> {
+    suspend fun getAll(): List<Greeting> {
         trace("Starting work to get all greetings")
 
         delayService.delay()
@@ -57,7 +58,7 @@ class GreetingService(
         }
     }
 
-    fun getById(id: Int): Greeting? {
+    suspend fun getById(id: Int): Greeting? {
         trace("Starting work to get a specific greeting")
 
         delayService.delay()
@@ -78,17 +79,13 @@ private fun trace(msg: Any) {
 class DelayService(
     private val javaClient: java.net.http.HttpClient,
 ) {
-    fun delay() {
+    suspend fun delay() {
         val request = HttpRequest.newBuilder()
             .uri(URI.create("$ENDPOINT_URL/$DELAY_SECONDS"))
             .GET()
             .build()
-
-        val future = javaClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-
-        future.thenAccept {
-            trace("Waiting finished with status ${it.statusCode()}")
-        }
+        val response = javaClient.sendAsync(request, HttpResponse.BodyHandlers.ofString()).await()
+        trace("Waiting finished with status ${response.statusCode()}")
     }
 
     companion object {

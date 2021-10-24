@@ -24,6 +24,13 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
 
+    val coroutinesVersion = "1.5.2"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    // adds the necessary depenencies to Tomcat servlets to behave non-blocking / suspending
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$coroutinesVersion")
+    // Convenience Extension functions to deal with JDK8 futures
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutinesVersion")
+
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
