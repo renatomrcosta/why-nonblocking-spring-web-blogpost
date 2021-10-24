@@ -1,4 +1,4 @@
-package de.renatomrcosta.whyreactivespringweb
+package de.renatomrcosta.whynonblockingspringweb
 
 import kotlinx.coroutines.future.await
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -16,10 +16,10 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 @SpringBootApplication
-class WhyReactiveSpringWebApplication
+class WhyNonBlockingSpringWebApplication
 
 fun main(args: Array<String>) {
-    runApplication<WhyReactiveSpringWebApplication>(*args)
+    runApplication<WhyNonBlockingSpringWebApplication>(*args)
 }
 
 @RestController

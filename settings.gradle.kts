@@ -1,1 +1,1 @@
-rootProject.name = "why-reactive-spring-web"
+rootProject.name = "why-nonblocking-spring-web"
