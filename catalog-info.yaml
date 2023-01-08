@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: why-nonblocking-spring-web-blogpost
+  annotations:
+    github.com/project-slug: renatomrcosta/why-nonblocking-spring-web-blogpost
+spec:
+  type: other
+  lifecycle: unknown
+  owner: guests
